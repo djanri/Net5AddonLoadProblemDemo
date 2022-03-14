@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
     <OutputPath>..\bin</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
@@ -12,5 +12,10 @@
   <ItemGroup>
     <ProjectReference Include="..\TheCore\TheCore.csproj" />
   </ItemGroup>
-
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
+			<Output TaskParameter="Assemblies" ItemName="CurrentAssembly" />
+		</GetAssemblyIdentity>
+		<Exec Command="xcopy /F /Y /E $(TargetDir)\\runtimes\\win\\lib\\netstandard2.0\\ $(TargetDir)\\" />
+	</Target>
 </Project>
